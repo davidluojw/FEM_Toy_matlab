@@ -1,0 +1,29 @@
+A Plate with Applied Pressure Loads                  26-FEB-15
+Plane stress
+      5        8                    ! No. of Elements, No. of Nodes
+      1.e3     0.3 		       ! Young's Modulus, Poisson's Ratio
+# Nodes:
+       1   	  0.e0	   0.e0
+       2   	  2.5e0   0.e0
+       3   	  2.5e0   3.e0
+       4   	  0.e0    2.e0
+       5   	  0.5e0   0.5e0
+       6   	  2.e0	   0.75e0
+       7   	  1.75e0  1.75e0
+       8   	  0.65e0  1.6e0
+# Element Connectivity:
+       1         1	  2	 6     5
+       2         6     2     3     7
+       3         8     7     3     4
+       4         1     5     8     4
+       5         5     6     7     8
+# Boundary conditions:
+       1   	  1    0.e0	  1    0.e0
+       2   	  1    0.025e0  1    0.e0
+       3   	  1    0.025e0  1    -0.009e0
+       4   	  1    0.e0     1    -0.006e0
+       5   	  1    0.005e0  1    -0.0015e0
+       6   	  1    0.02e0	  1    -0.00225e0
+       7   	  1    0.0175e0 1    -0.00525e0
+       8   	  1    0.0065e0 1    -0.0048e0
+# End of file
