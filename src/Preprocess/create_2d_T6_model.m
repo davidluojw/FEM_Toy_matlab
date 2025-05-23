@@ -1,4 +1,4 @@
-function model = create_2d_Q4_model(fem_data)
+function model = create_2d_T6_model(fem_data)
 
     model = struct();
 
@@ -6,10 +6,9 @@ function model = create_2d_Q4_model(fem_data)
 
     model.nsd = 2;  % space dimension
     model.ndof = 2; % degree of freem of each node
-    model.nen = 4;  % number of  nodes in each element
-    model.ngp = 2;  % quadrature points for Gauss numberical integration
-    model.deg_xi = 1;  % linear polynomial
-    model.deg_eta = 1; % linear polynomial
+    model.nen = 6;  % number of  nodes in each element
+    model.ngp = 4;  % quadrature points for Gauss numberical integration
+    model.degree = 1;  % T3 area coordinates
     model.nnp = fem_data.num_nodes; % total number of nodes
     model.nel = fem_data.num_elements; %total numeber of elements
     model.neq = model.ndof * model.nnp;  % total number of equations, (x1,y1,x2,y2,...,xnnp, ynnp)
@@ -19,7 +18,7 @@ function model = create_2d_Q4_model(fem_data)
     model.elements_connectivity = fem_data.elements_connectivity;  % element connectivity
     model.E = fem_data.E;   % Young's modulus
     model.nu = fem_data.nu; % poisson's ratio
-    model.nint = model.ngp^(model.ndof); % quadrature points in 2D
+    model.nint = model.ngp; % quadrature points in 2D
     model.fact = 1;   % the amplification factor for plot
     model.strain_qdpt = zeros(3, model.nint, model.nel); % each element strain at quadrature point
     model.stress_qdpt = zeros(3, model.nint, model.nel); % each element stress at quadrature point
@@ -35,31 +34,31 @@ function model = create_2d_Q4_model(fem_data)
 
     model.nd = 0;  % total dofs for essential boundary condition
     model.nbe = fem_data.nbe; % total number of edges for natural boundary condtion
-    model.e_bc = zeros(model.neq, 1);  % the specified displacement for each dof, 
+    model.e_bc = zeros(model.neq, 1);  % the specified displacement for each dof 
     model.n_bc = fem_data.n_bc;  % first 2 rows: nodes belonging the edge which is applied natural boundary condition
-                                 % next 4 rows: the nodal forces (fx1, fy1, fx2, fy2) applied at each dofs for the two nodes
+                               % next 4 rows: the nodal forces (fx1, fy1, fx2, fy2) applied at each dofs for the two nodes
     model.P = zeros(model.neq, 1); % the external nodal forces applied to each dof
     model.b = zeros(model.nen * model.ndof, model.nel); % the nodal body forces in each element (bx1, by1, bx2, by2, bx3, by3)
 
     model.flags = zeros(model.neq, 1); % the dofs for essential boundary condition, denoted as 2
 
     for ii = 1:model.nnp
-        if model.bc(ii, 1) == 1  % 1: Dirichlet BC
+        if model.bc(ii, 1) == 1.0
             index = (ii-1)*model.ndof + 1;
             model.e_bc(index) = model.bc(ii, 2);
             model.nd = model.nd + 1;
             model.flags(index) = 2;
-        elseif model.bc(ii, 1) == 2  % 2: Concentrate Force
+        elseif model.bc(ii, 1) == 2.0
             index = (ii-1)*model.ndof + 1;
             model.P(index) = model.bc(ii, 2);
         end
 
-        if model.bc(ii, 3) == 1   %  1: Dirichlet BC
+        if model.bc(ii, 3) == 1.0
             index = (ii-1)*model.ndof + 2;
             model.e_bc(index) = model.bc(ii, 4);
             model.nd = model.nd + 1;
             model.flags(index) = 2;
-        elseif model.bc(ii, 3) == 2  % 2: Concentrate Force
+        elseif model.bc(ii, 3) == 2.0
             index = (ii-1)*model.ndof + 2;
             model.P(index) = model.bc(ii, 4);
         end

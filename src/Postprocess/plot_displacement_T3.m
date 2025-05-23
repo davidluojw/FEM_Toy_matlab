@@ -1,4 +1,4 @@
-function plot_displacement(model)
+function plot_displacement_T3(model)
     % PLOT THE DEFORMED DISPLACEMENT 
     dis = zeros(model.neq, 1);
     for ii = 1:model.nnp

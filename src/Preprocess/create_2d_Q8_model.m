@@ -1,4 +1,4 @@
-function model = create_2d_Q4_model(fem_data)
+function model = create_2d_Q8_model(fem_data)
 
     model = struct();
 
@@ -6,10 +6,10 @@ function model = create_2d_Q4_model(fem_data)
 
     model.nsd = 2;  % space dimension
     model.ndof = 2; % degree of freem of each node
-    model.nen = 4;  % number of  nodes in each element
-    model.ngp = 2;  % quadrature points for Gauss numberical integration
-    model.deg_xi = 1;  % linear polynomial
-    model.deg_eta = 1; % linear polynomial
+    model.nen = 8;  % number of  nodes in each element
+    model.ngp = 3;  % quadrature points for Gauss numberical integration
+    model.deg_xi = 2;  % linear polynomial
+    model.deg_eta = 2; % linear polynomial
     model.nnp = fem_data.num_nodes; % total number of nodes
     model.nel = fem_data.num_elements; %total numeber of elements
     model.neq = model.ndof * model.nnp;  % total number of equations, (x1,y1,x2,y2,...,xnnp, ynnp)
@@ -20,7 +20,7 @@ function model = create_2d_Q4_model(fem_data)
     model.E = fem_data.E;   % Young's modulus
     model.nu = fem_data.nu; % poisson's ratio
     model.nint = model.ngp^(model.ndof); % quadrature points in 2D
-    model.fact = 1;   % the amplification factor for plot
+    model.fact = 2000;   % the amplification factor for plot
     model.strain_qdpt = zeros(3, model.nint, model.nel); % each element strain at quadrature point
     model.stress_qdpt = zeros(3, model.nint, model.nel); % each element stress at quadrature point
     model.strain_nodal = zeros(3, model.nnp); % each element strain at nodal point

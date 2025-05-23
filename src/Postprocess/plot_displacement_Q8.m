@@ -1,4 +1,4 @@
-function plot_displacement_Q4(model)
+function plot_displacement_Q8(model)
     % PLOT THE DEFORMED DISPLACEMENT 
     dis = zeros(model.neq, 1);
     for ii = 1:model.nnp
@@ -18,8 +18,9 @@ function plot_displacement_Q4(model)
     for i = 1:model.nel
         % initial structure (blue line)
         node_ids = model.IEN(:,i);
-        X_orig = model.nodes(node_ids([1:end,1]), 1);  
-        Y_orig = model.nodes(node_ids([1:end,1]), 2);
+        node_idsreo = [node_ids(1), node_ids(5), node_ids(2), node_ids(6), node_ids(3), node_ids(7), node_ids(4), node_ids(8)];  % reorder the index
+        X_orig = model.nodes(node_idsreo([1:end,1]), 1);  
+        Y_orig = model.nodes(node_idsreo([1:end,1]), 2);
 
         if i == 1
             h_initial = plot(X_orig, Y_orig, 'b-', 'LineWidth', 1.5, 'DisplayName', 'Initial');
@@ -31,8 +32,9 @@ function plot_displacement_Q4(model)
     %% the deformed structure (black line)
     for i = 1:model.nel
         node_ids = model.IEN(:,i);
-        X_def = xnew(node_ids([1:end,1]));
-        Y_def = ynew(node_ids([1:end,1]));
+        node_idsreo = [node_ids(1), node_ids(5), node_ids(2), node_ids(6), node_ids(3), node_ids(7), node_ids(4), node_ids(8)];  % reorder the index
+        X_def = xnew(node_idsreo([1:end,1]));
+        Y_def = ynew(node_idsreo([1:end,1]));
         if i == 1
             h_deformed = plot(X_def, Y_def, 'k--', 'LineWidth', 2, 'DisplayName', 'Deformed');
         else

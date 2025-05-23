@@ -1,4 +1,4 @@
-function model = concentrate_traction(model)
+function model = concentrate_traction_Q4(model, h)
 
     % concentrate force
     for ii = 1:model.neq
@@ -24,7 +24,8 @@ function model = concentrate_traction(model)
         J = leng/ 2.0;
 
         for ll = 1:model.nint
-            N = 0.5*[1-xi(ll), 0, 1+xi(ll), 0;
+            % shape function matrix
+            N = 0.5*[1-xi(ll), 0, 1+xi(ll), 0;   
                      0, 1-xi(ll), 0, 1+xi(ll)];
             
             traction  = N * n_bce;

@@ -1,4 +1,4 @@
-function model = plot_stress_Q4(model)
+function plot_stress_Q4(model)
     % PLOT_STRESS:  PLOT THE STRESS CONTOURS
     
     %% Plot Stress contour
