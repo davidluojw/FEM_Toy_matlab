@@ -51,9 +51,9 @@ function plot_displacement_Q8(model)
     hold off;
 
     %% the displacement  contour
-    plot_displacement_contour_Q4(model, 1);  % u_x
-    plot_displacement_contour_Q4(model, 2);  % u_y
-    plot_displacement_contour_Q4(model, 3);  % u_abs
+    plot_displacement_contour_Q8(model, 1);  % u_x
+    plot_displacement_contour_Q8(model, 2);  % u_y
+    plot_displacement_contour_Q8(model, 3);  % u_abs
 
     
 end

@@ -29,6 +29,9 @@ function [k_ele, f_ele] = elasticity_elemQuad4_2d(model, ee)
         N3 = Quad_ShpaeBasisN_2d(model.deg_xi, model.deg_eta, 3, xi(ll), eta(ll));
         N4 = Quad_ShpaeBasisN_2d(model.deg_xi, model.deg_eta, 4, xi(ll), eta(ll));
 
+        x_l = [N1, N2, N3, N4] * nodes_ele(:, 1);
+        y_l = [N1, N2, N3, N4] * nodes_ele(:, 2);
+
         N = [N1, 0.0, N2, 0.0, N3, 0.0, N4, 0.0;
              0.0, N1, 0.0, N2, 0.0, N3, 0.0, N4];
         
@@ -68,7 +71,9 @@ function [k_ele, f_ele] = elasticity_elemQuad4_2d(model, ee)
         k_ele = k_ele + Bmat' * model.D * Bmat * detJ * weight(ll);
 
         % element nodal forces, body forces
-        be = N * model.b(:, ee);   % interpolate body forces model.b to quadrature point, b(xi,eta) = N1(xi,eta) * b(:,ee) + ...
+        % be = N * model.b(:, ee);   % interpolate body forces model.b to quadrature point, b(xi,eta) = N1(xi,eta) * b(:,ee) + ...
+        % f_ele = f_ele + N' * be * detJ * weight(ll);
+        be = [model.exact_bf_x(x_l, y_l); model.exact_bf_y(x_l, y_l)];
         f_ele = f_ele + N' * be * detJ * weight(ll);
 
     end % end of quadrature loop

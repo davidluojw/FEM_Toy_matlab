@@ -27,9 +27,9 @@ print_displacement(model);
 plot_mesh_Q8(model);
 plot_displacement_Q8(model);
 
-model = get_qdpt_stress_Q4(model);
-model = get_nodal_stress_Q4(model);
+model = get_qdpt_stress_Q8(model);
+model = get_nodal_stress_Q8(model);
 
 cart2polar_stress(model);
 
-plot_stress_Q4(model);
+plot_stress_Q8(model);

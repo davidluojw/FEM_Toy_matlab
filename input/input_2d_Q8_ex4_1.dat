@@ -150,11 +150,11 @@ Plane stress
        62       2    0.e0	  2    0.e0
        63       2    0.e0	  2    0.e0
        64       2    0.e0	  2    0.e0
-       65       2    0.e0	  2    0.e0
-# Traction:
-       4      ! the number of edge which is applied traction
-       1      57     58     59     0.e0   -20.e0     0.e0   -20.e0
-       2      59     60     61     0.e0   -20.e0     0.e0   -20.e0
-       3      61     62     63     0.e0   -20.e0     0.e0   -20.e0
-       4      63     64     65     0.e0   -20.e0     0.e0   -20.e0
+       65       2    0.e0	  2    -20.e0
+// # Traction:
+//        4      ! the number of edge which is applied traction
+//        1      57     58     59     0.e0   -20.e0     0.e0   -20.e0   // 0.e0   -20.e0
+//        2      59     60     61     0.e0   -20.e0     0.e0   -20.e0   // 0.e0   -20.e0
+//        3      61     62     63     0.e0   -20.e0     0.e0   -20.e0   // 0.e0   -20.e0
+//        4      63     64     65     0.e0   -20.e0     0.e0   -20.e0   // 0.e0   -20.e0
 # End of file

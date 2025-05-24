@@ -1,4 +1,4 @@
-function model = get_nodal_stress(model, ee)
+function model = get_nodal_stress_T3(model, ee)
     % NODAL_STRESS element nodal stress and cumulate to global stress
 
     for ee = 1:model.nel
