@@ -1,4 +1,4 @@
-function val = Quad_ShpaeBasisN_2d(deg_xi, deg_eta, a, xi, eta)
+function val = Quad_ShapeBasisN_2d(deg_xi, deg_eta, a, xi, eta)
     % deg_xi: the degree of Lagrange polynomial for xi-coor
     % deg_eta: the degree of lagrange polynomial for eta-corr
     % a: the number of element node in xi-eta coordinate Q4

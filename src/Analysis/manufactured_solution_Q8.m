@@ -1,4 +1,4 @@
-function model = manufactured_solution(model)
+function model = manufactured_solution_Q4(model)
     E = model.E;
     nu = model.nu;
 
@@ -10,21 +10,38 @@ function model = manufactured_solution(model)
     G_xy = @(x, y) -4 * pi * pi * sin((x + y) * 2 * pi);
     G_yx = @(x, y) -4 * pi * pi * sin((x + y) * 2 * pi);
 
-    model.exact_ux    = @(x,y) x*(2-x)*y*(1-y);  %+ 0.1*G(x, y);
-    model.exact_ux_x  = @(x,y) (2-2*x)*y*(1-y); % + 0.1*G_x(x, y); 
-    model.exact_ux_y  = @(x,y) x*(2-x)*(1-2*y); % + 0.1*G_y(x, y);
-    model.exact_ux_xx = @(x,y) -2*y*(1-y)     ; % + 0.1*G_xx(x, y); 
-    model.exact_ux_xy = @(x,y) (2-2*x)*(1-2*y); % + 0.1*G_xy(x, y); 
-    model.exact_ux_yx = @(x,y) (2-2*x)*(1-2*y); % + 0.1*G_yx(x, y);
-    model.exact_ux_yy = @(x,y) -2*x*(2-x)     ; % + 0.1*G_yy(x, y);
+    % model.exact_ux    = @(x,y) x*(2-x)*y*(1-y) + 0.1*G(x, y);
+    % model.exact_ux_x  = @(x,y) (2-2*x)*y*(1-y) + 0.1*G_x(x, y); 
+    % model.exact_ux_y  = @(x,y) x*(2-x)*(1-2*y) + 0.1*G_y(x, y);
+    % model.exact_ux_xx = @(x,y) -2*y*(1-y)      + 0.1*G_xx(x, y); 
+    % model.exact_ux_xy = @(x,y) (2-2*x)*(1-2*y) + 0.1*G_xy(x, y); 
+    % model.exact_ux_yx = @(x,y) (2-2*x)*(1-2*y) + 0.1*G_yx(x, y);
+    % model.exact_ux_yy = @(x,y) -2*x*(2-x)      + 0.1*G_yy(x, y);
+    % 
+    % model.exact_uy    = @(x,y) x*(2-x)*y*(1-y) + 0.1*G(x, y);
+    % model.exact_uy_x  = @(x,y) (2-2*x)*y*(1-y) + 0.1*G_x(x, y);
+    % model.exact_uy_y  = @(x,y) x*(2-x)*(1-2*y) + 0.1*G_y(x, y);
+    % model.exact_uy_xx = @(x,y) -2*y*(1-y)      + 0.1*G_xx(x, y);
+    % model.exact_uy_xy = @(x,y) (2-2*x)*(1-2*y) + 0.1*G_xy(x, y);
+    % model.exact_uy_yx = @(x,y) (2-2*x)*(1-2*y) + 0.1*G_yx(x, y);
+    % model.exact_uy_yy = @(x,y) -2*x*(2-x)      + 0.1*G_yy(x, y);
 
-    model.exact_uy    = @(x,y) x*(2-x)*y*(1-y); % + 0.1*G(x, y);
-    model.exact_uy_x  = @(x,y) (2-2*x)*y*(1-y); % + 0.1*G_x(x, y);
-    model.exact_uy_y  = @(x,y) x*(2-x)*(1-2*y); % + 0.1*G_y(x, y);
-    model.exact_uy_xx = @(x,y) -2*y*(1-y)     ; % + 0.1*G_xx(x, y);
-    model.exact_uy_xy = @(x,y) (2-2*x)*(1-2*y); % + 0.1*G_xy(x, y);
-    model.exact_uy_yx = @(x,y) (2-2*x)*(1-2*y); % + 0.1*G_yx(x, y);
-    model.exact_uy_yy = @(x,y) -2*x*(2-x)     ; % + 0.1*G_yy(x, y);
+
+    model.exact_ux    = @(x,y) x*(2-x)*y*(1-y); 
+    model.exact_ux_x  = @(x,y) (2-2*x)*y*(1-y); 
+    model.exact_ux_y  = @(x,y) x*(2-x)*(1-2*y); 
+    model.exact_ux_xx = @(x,y) -2*y*(1-y)     ;  
+    model.exact_ux_xy = @(x,y) (2-2*x)*(1-2*y);
+    model.exact_ux_yx = @(x,y) (2-2*x)*(1-2*y);
+    model.exact_ux_yy = @(x,y) -2*x*(2-x)     ;
+
+    model.exact_uy    = @(x,y) x*(2-x)*y*(1-y);
+    model.exact_uy_x  = @(x,y) (2-2*x)*y*(1-y);
+    model.exact_uy_y  = @(x,y) x*(2-x)*(1-2*y);
+    model.exact_uy_xx = @(x,y) -2*y*(1-y)     ;
+    model.exact_uy_xy = @(x,y) (2-2*x)*(1-2*y);
+    model.exact_uy_yx = @(x,y) (2-2*x)*(1-2*y);
+    model.exact_uy_yy = @(x,y) -2*x*(2-x)     ;
 
 
 
@@ -68,40 +85,8 @@ function model = manufactured_solution(model)
     end
 
     % Neumann B.C
-    model.nbc_nodes = [21, 22, 23, 24; 22, 23, 24, 25];
+    % model.nbc_nodes = [21, 22, 23, 24; 22, 23, 24, 25];
     % model.nbc_nodes = [1, 2, 3, 4; 2, 3, 4, 5];
-    
-
-    % Neumann B.C. 
-    % for ii = 1:model.nbe
-    %     node1 = model.n_bc(1, ii);
-    %     node2 = model.n_bc(2, ii);
-
-    %     node1_x = model.nodes(node1, 1);
-    %     node1_y = model.nodes(node1, 2);
-    %     node2_x = model.nodes(node2, 1);
-    %     node2_y = model.nodes(node2, 2);
-
-    %     model.n_bc(3, ii) = model.exact_stressxy(node1_x,node1_y);
-    %     model.n_bc(4, ii) = model.exact_stressyy(node1_x,node1_y);
-    %     model.n_bc(5, ii) = model.exact_stressxy(node2_x,node2_y);
-    %     model.n_bc(6, ii) = model.exact_stressyy(node2_x,node2_y);
-
-    % end
-
-    % Body force
-    % for ee = 1:model.nel
-    %     for aa = 1:model.nen
-    %         node = model.IEN(aa, ee);
-    %         node_x = model.nodes(node,1);
-    %         node_y = model.nodes(node,2);
-
-    %         dof_ids1 = model.ID(1, node);
-    %         dof_ids2 = model.ID(2, node);
-    %         model.b(dof_ids1, ee) = - model.exact_stressxx_x(node_x, node_y) - model.exact_stressxy_y(node_x, node_y);
-    %         model.b(dof_ids2, ee) = - model.exact_stressxy_x(node_x, node_y) - model.exact_stressyy_y(node_x, node_y);
-    %     end
-    % end
 
 
     % PLOT THE DEFORMED DISPLACEMENT (exact solution)
@@ -128,8 +113,9 @@ function model = manufactured_solution(model)
     for i = 1:model.nel
         % initial structure (blue line)
         node_ids = model.IEN(:,i);
-        X_orig = model.nodes(node_ids([1:end,1]), 1);  
-        Y_orig = model.nodes(node_ids([1:end,1]), 2);
+        node_idsreo = [node_ids(1), node_ids(5), node_ids(2), node_ids(6), node_ids(3), node_ids(7), node_ids(4), node_ids(8)];  % reorder the index
+        X_orig = model.nodes(node_idsreo([1:end,1]), 1);  
+        Y_orig = model.nodes(node_idsreo([1:end,1]), 2);
 
         if i == 1
             h_initial = plot(X_orig, Y_orig, 'b-', 'LineWidth', 1.5, 'DisplayName', 'Initial');
@@ -141,8 +127,9 @@ function model = manufactured_solution(model)
     %% the deformed structure (black line)
     for i = 1:model.nel
         node_ids = model.IEN(:,i);
-        X_def = xnew(node_ids([1:end,1]));
-        Y_def = ynew(node_ids([1:end,1]));
+        node_idsreo = [node_ids(1), node_ids(5), node_ids(2), node_ids(6), node_ids(3), node_ids(7), node_ids(4), node_ids(8)];  % reorder the index
+        X_def = xnew(node_idsreo([1:end,1]));
+        Y_def = ynew(node_idsreo([1:end,1]));
         if i == 1
             h_deformed = plot(X_def, Y_def, 'k--', 'LineWidth', 2, 'DisplayName', 'Deformed');
         else

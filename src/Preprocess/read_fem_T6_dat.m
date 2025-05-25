@@ -1,4 +1,4 @@
-function fem_data = read_fem_Q8_dat(filename)
+function fem_data = read_fem_T6_dat(filename)
     fid = fopen(filename, 'r');
 
     if fid == -1
@@ -49,7 +49,7 @@ function fem_data = read_fem_Q8_dat(filename)
         elseif startsWith(line, "# Element Connectivity:")
             for i = 1:fem_data.num_elements
                 line = fgetl(fid);
-                ele_data  = sscanf(line, '%f%f%f%f%f');
+                ele_data  = sscanf(line, '%f%f%f%f');
                 fem_data.elements_connectivity(i, :) = ele_data(2:end);
             end
         elseif startsWith(line, "# Boundary conditions:")

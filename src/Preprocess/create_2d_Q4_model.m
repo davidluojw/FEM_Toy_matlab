@@ -38,7 +38,7 @@ function model = create_2d_Q4_model(fem_data)
     model.e_bc = zeros(model.neq, 1);  % the specified displacement for each dof, 
     model.n_bc = fem_data.n_bc;  % first 2 rows: nodes belonging the edge which is applied natural boundary condition
                                  % next 4 rows: the nodal forces (fx1, fy1, fx2, fy2) applied at each dofs for the two nodes
-    model.nbc_nodes = unique(model.n_bc(1:2, :)); 
+    model.nbc_nodes = model.n_bc(1:2, :); 
     model.P = zeros(model.neq, 1); % the external nodal forces applied to each dof
     model.b = zeros(model.nen * model.ndof, model.nel); % the nodal body forces in each element (bx1, by1, bx2, by2, bx3, by3)
 

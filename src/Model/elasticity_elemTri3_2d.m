@@ -27,6 +27,9 @@ function [k_ele, f_ele] = elasticity_elemTri3_2d(model, ee)
         N2 = Area_ShapeBasisN_2d(model.degree, 2, xi(ll), eta(ll), zeta(ll));
         N3 = Area_ShapeBasisN_2d(model.degree, 3, xi(ll), eta(ll), zeta(ll));
 
+        x_l = [N1, N2, N3] * nodes_ele(:, 1);
+        y_l = [N1, N2, N3] * nodes_ele(:, 2);
+
         N = [N1, 0.0, N2, 0.0, N3, 0.0;
              0.0, N1, 0.0, N2, 0.0, N3];
         
@@ -63,7 +66,7 @@ function [k_ele, f_ele] = elasticity_elemTri3_2d(model, ee)
         k_ele = k_ele + Bmat' * model.D * Bmat * detJ * weight(ll);
 
         % element nodal forces, body forces
-        be = N * model.b(:, ee);   % interpolate body forces model.b to quadrature point, b(xi,eta) = N1(xi,eta) * b(:,ee) + ...
+        be = [model.exact_bf_x(x_l, y_l); model.exact_bf_y(x_l, y_l)];
         f_ele = f_ele + N' * be * detJ * weight(ll);
 
     end % end of quadrature loop

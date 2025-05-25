@@ -8,7 +8,7 @@ function model = create_2d_T6_model(fem_data)
     model.ndof = 2; % degree of freem of each node
     model.nen = 6;  % number of  nodes in each element
     model.ngp = 4;  % quadrature points for Gauss numberical integration
-    model.degree = 1;  % T3 area coordinates
+    model.degree = 2;  % T3 area coordinates
     model.nnp = fem_data.num_nodes; % total number of nodes
     model.nel = fem_data.num_elements; %total numeber of elements
     model.neq = model.ndof * model.nnp;  % total number of equations, (x1,y1,x2,y2,...,xnnp, ynnp)
@@ -37,6 +37,7 @@ function model = create_2d_T6_model(fem_data)
     model.e_bc = zeros(model.neq, 1);  % the specified displacement for each dof 
     model.n_bc = fem_data.n_bc;  % first 2 rows: nodes belonging the edge which is applied natural boundary condition
                                % next 4 rows: the nodal forces (fx1, fy1, fx2, fy2) applied at each dofs for the two nodes
+    model.nbc_nodes = model.n_bc(1:3, :); 
     model.P = zeros(model.neq, 1); % the external nodal forces applied to each dof
     model.b = zeros(model.nen * model.ndof, model.nel); % the nodal body forces in each element (bx1, by1, bx2, by2, bx3, by3)
 

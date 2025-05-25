@@ -20,7 +20,7 @@ function model = create_2d_Q8_model(fem_data)
     model.E = fem_data.E;   % Young's modulus
     model.nu = fem_data.nu; % poisson's ratio
     model.nint = model.ngp^(model.ndof); % quadrature points in 2D
-    model.fact = 5000;   % the amplification factor for plot
+    model.fact = 1;   % the amplification factor for plot
     model.strain_qdpt = zeros(3, model.nint, model.nel); % each element strain at quadrature point
     model.stress_qdpt = zeros(3, model.nint, model.nel); % each element stress at quadrature point
     model.strain_nodal = zeros(3, model.nnp); % each element strain at nodal point
@@ -38,6 +38,7 @@ function model = create_2d_Q8_model(fem_data)
     model.e_bc = zeros(model.neq, 1);  % the specified displacement for each dof, 
     model.n_bc = fem_data.n_bc;  % first 2 rows: nodes belonging the edge which is applied natural boundary condition
                                  % next 4 rows: the nodal forces (fx1, fy1, fx2, fy2) applied at each dofs for the two nodes
+    model.nbc_nodes = model.n_bc(1:3, :); 
     model.P = zeros(model.neq, 1); % the external nodal forces applied to each dof
     model.b = zeros(model.nen * model.ndof, model.nel); % the nodal body forces in each element (bx1, by1, bx2, by2, bx3, by3)
 

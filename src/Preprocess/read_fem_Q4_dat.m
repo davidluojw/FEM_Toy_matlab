@@ -13,7 +13,7 @@ function fem_data = read_fem_Q4_dat(filename)
     fem_data.title = sscanf(line, '%[^...]');
 
     fem_data.nbe = 0;
-    fem_data.n_bc = zeros(6,1);
+    fem_data.n_bc = zeros(2,1);
     
     % read the model parameters
     while ~feof(fid)  % whether read the end line of the file
@@ -64,7 +64,7 @@ function fem_data = read_fem_Q4_dat(filename)
             fem_data.nbe = data;
             for i = 1:fem_data.nbe
                 line = fgetl(fid);
-                nbc_data = sscanf(line, "%f%f%f%f%f%f%f");
+                nbc_data = sscanf(line, "%f%f%f");
                 fem_data.n_bc(:, i) = nbc_data(2:end);
             end
         end

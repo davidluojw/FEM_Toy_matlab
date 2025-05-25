@@ -18,10 +18,10 @@ function model = get_qdpt_stress_Q4(model)
         for ll = 1 : model.nint
 
             % shape function matrix
-            N1 = Quad_ShpaeBasisN_2d(model.deg_xi, model.deg_eta, 1, xi(ll), eta(ll));
-            N2 = Quad_ShpaeBasisN_2d(model.deg_xi, model.deg_eta, 2, xi(ll), eta(ll));
-            N3 = Quad_ShpaeBasisN_2d(model.deg_xi, model.deg_eta, 3, xi(ll), eta(ll));
-            N4 = Quad_ShpaeBasisN_2d(model.deg_xi, model.deg_eta, 4, xi(ll), eta(ll));
+            N1 = Quad_ShapeBasisN_2d(model.deg_xi, model.deg_eta, 1, xi(ll), eta(ll));
+            N2 = Quad_ShapeBasisN_2d(model.deg_xi, model.deg_eta, 2, xi(ll), eta(ll));
+            N3 = Quad_ShapeBasisN_2d(model.deg_xi, model.deg_eta, 3, xi(ll), eta(ll));
+            N4 = Quad_ShapeBasisN_2d(model.deg_xi, model.deg_eta, 4, xi(ll), eta(ll));
 
             N = [N1, 0.0, N2, 0.0, N3, 0.0, N4, 0.0;
                 0.0, N1, 0.0, N2, 0.0, N3, 0.0, N4];
