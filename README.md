@@ -13,6 +13,15 @@ FEM/
 ├── elasticity-mises.pdf
 ├── elasticity-sxx.pdf
 ├── input
+│   ├── genInput
+│   │   ├── generateFEMData.m
+│   │   ├── generateQ4.m
+│   │   ├── generateQ8.m
+│   │   ├── plate_mesh_12x12.dat
+│   │   ├── plate_mesh_16x16.dat
+│   │   ├── plate_mesh_20x20.dat
+│   │   ├── plate_mesh_4x4.dat
+│   │   └── plate_mesh_8x8.dat
 │   ├── input_2d_Q4_16.dat
 │   ├── input_2d_Q4_4.dat
 │   ├── input_2d_Q4_Cyn_12_24.dat
@@ -22,10 +31,18 @@ FEM/
 │   ├── input_2d_Q4_Cyn_6_12.dat
 │   ├── input_2d_Q4_Cyn_96_192.dat
 │   ├── input_2d_Q4_ex4_1.dat
+│   ├── input_2d_Q4_ex4_2.dat
+│   ├── input_2d_Q4_ex4_3.dat
+│   ├── input_2d_Q4_ex4_4.dat
+│   ├── input_2d_Q4_ex4_5.dat
 │   ├── input_2d_Q4_testA.dat
 │   ├── input_2d_Q4_testB.dat
 │   ├── input_2d_Q4_testC.dat
 │   ├── input_2d_Q8_ex4_1.dat
+│   ├── input_2d_Q8_ex4_2.dat
+│   ├── input_2d_Q8_ex4_3.dat
+│   ├── input_2d_Q8_ex4_4.dat
+│   ├── input_2d_Q8_ex4_5.dat
 │   ├── input_2d_T3_200.dat
 │   ├── input_2d_T3_20000.dat
 │   ├── input_2d_T3_50.dat
@@ -34,9 +51,10 @@ FEM/
 │   ├── input_2d_T3_Cyn_6_12.dat
 │   ├── input_2d_T3_ex4_1.dat
 │   └── input_2d_T6_ex4_1.dat
-├── plot_initial_structure.jpg
 └── src
     ├── Analysis
+    │   ├── convergence_analysis_Q4.m
+    │   ├── convergence_analysis_Q8.m
     │   ├── error_analysis_Q4.m
     │   ├── error_analysis_Q8.m
     │   ├── error_analysis_T3.m
