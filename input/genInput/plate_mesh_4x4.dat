@@ -1,0 +1,4 @@
+A Plate with Applied Pressure Loads                  27-May-25
+Plane stress
+      16      65                     ! No. of Elements, No. of Nodes
+   3.0e+07     0.3               ! Young's Modulus, Poisson's Ratio

@@ -41,7 +41,7 @@ function plot_displacement_contour_T6(model, type)
         elseif type == 2
             dd = [u_y(1), u_y(2), u_y(3), u_x(4), u_x(5), u_x(6), u_y(1)];
         elseif type == 3
-            dd = [uu(1), uu(2), uu(3), u_x(4), u_x(5), u_x(6),  uu(1)];
+            dd = [uu(1), uu(2), uu(3), uu(4), uu(5), uu(6),  uu(1)];
         end
 
         patch(XX,YY,dd);

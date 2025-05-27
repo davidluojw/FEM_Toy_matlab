@@ -1,6 +1,6 @@
 function model = solvedr(model)
 
-    K = spalloc(model.neq, model.neq, 9*model.neq);
+    K = spalloc(model.neq, model.neq, (model.ndof * model.nen + 1)*model.neq);
 
     K = model.K;
 
@@ -13,15 +13,10 @@ function model = solvedr(model)
             K(:, ii) = zeros(model.neq, 1);
             K(ii, ii) = 1.0;
             f(ii) = model.e_bc(ii);
-        end
-    end
-
-    for ii = 1:model.neq
-        if model.flags(ii) ~= 2
+        else
             f(ii) = f(ii) - model.K(ii, :) * model.e_bc;
         end
     end
-
 
     model.d = K \ f;
 

@@ -15,8 +15,8 @@ function  model =  error_analysis_Q8(model)
         end
     end
     
-    model.errorL2 = 0.0; model.bottomL2 = 0.0;
-    model.errorH1 = 0.0; model.bottomH1 = 0.0;
+    model.errorL2_x = 0.0; model.errorL2_y = 0.0; bottomL2_x = 0.0; bottomL2_y = 0.0;
+    model.errorH1_x = 0.0; model.errorH1_y = 0.0; bottomH1_x = 0.0; bottomH1_y = 0.0;
     for ee = 1 : model.nel
         ele_ids = model.IEN(1:model.nen, ee);  % the number of nodes within the ee element
         x_ele = model.nodes(ele_ids, 1); 
@@ -55,18 +55,32 @@ function  model =  error_analysis_Q8(model)
     
             ux_l_x = (ux_l_xi * dy_deta - ux_l_eta * dy_dxi) / detJ;
             ux_l_y = (ux_l_xi * (-dx_deta) + ux_l_eta * dx_dxi) / detJ;
+
             uy_l_x = (uy_l_xi * dy_deta - uy_l_eta * dy_dxi) / detJ;
             uy_l_y = (uy_l_xi * (-dx_deta) + uy_l_eta * dx_dxi) / detJ;
             
-            model.errorL2 = model.errorL2 + weight(ll) * detJ * ( (ux_l - model.exact_ux(x_l, y_l))^2 + (uy_l - model.exact_uy(x_l, y_l))^2 );
-            model.errorH1 = model.errorH1 + weight(ll) * detJ * (( ux_l_x- model.exact_ux_x(x_l,y_l))^2 + ( ux_l_y - model.exact_ux_y(x_l,y_l))^2 + ( uy_l_x- model.exact_uy_x(x_l,y_l))^2 + ( uy_l_y - model.exact_uy_y(x_l,y_l))^2 );
-            model.bottomL2 = model.bottomL2 + weight(ll) * detJ * (model.exact_ux(x_l, y_l)^2 + model.exact_uy(x_l, y_l)^2);
-            model.bottomH1 = model.bottomH1 + weight(ll) * detJ * (model.exact_ux_x(x_l,y_l)^2 + model.exact_ux_y(x_l,y_l)^2 + model.exact_uy_x(x_l,y_l)^2 + model.exact_uy_y(x_l,y_l)^2);
+            model.errorL2_x = model.errorL2_x + weight(ll) * detJ * (ux_l - model.exact_ux(x_l, y_l))^2;
+            model.errorL2_y = model.errorL2_y + weight(ll) * detJ * (uy_l - model.exact_uy(x_l, y_l))^2;
+
+            model.errorH1_x = model.errorH1_x + weight(ll) * detJ * ( ( ux_l_x- model.exact_ux_x(x_l,y_l))^2 + ( ux_l_y - model.exact_ux_y(x_l,y_l))^2 );
+            model.errorH1_y = model.errorH1_y + weight(ll) * detJ * ( ( uy_l_x- model.exact_uy_x(x_l,y_l))^2 + ( uy_l_y - model.exact_uy_y(x_l,y_l))^2 );
+
+            bottomL2_x = bottomL2_x + weight(ll) * detJ * model.exact_ux(x_l, y_l)^2;
+            bottomL2_y = bottomL2_y + weight(ll) * detJ * model.exact_uy(x_l, y_l)^2;
+
+            bottomH1_x = bottomH1_x + weight(ll) * detJ * ( model.exact_ux_x(x_l,y_l)^2 + model.exact_ux_y(x_l,y_l)^2 );
+            bottomH1_y = bottomH1_y + weight(ll) * detJ * ( model.exact_uy_x(x_l,y_l)^2 + model.exact_uy_y(x_l,y_l)^2 );
         end
     end
     
-    model.errorL2 = sqrt(model.errorL2) / sqrt(model.bottomL2);
-    model.errorH1 = sqrt(model.errorH1) / sqrt(model.bottomH1);
+    model.errorL2_x = sqrt(model.errorL2_x) / sqrt(bottomL2_x);
+    model.errorL2_y = sqrt(model.errorL2_y) / sqrt(bottomL2_y);
+
+    model.errorH1_x = sqrt(model.errorH1_x) / sqrt(bottomH1_x);
+    model.errorH1_y = sqrt(model.errorH1_y) / sqrt(bottomH1_y);
+    
+    model.errorL2 = model.errorL2_x + model.errorL2_y;
+    model.errorH1 = model.errorH1_x + model.errorH1_y;
 
 
 end

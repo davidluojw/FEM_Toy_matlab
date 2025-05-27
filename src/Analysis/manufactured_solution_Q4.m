@@ -53,12 +53,12 @@ function model = manufactured_solution_Q4(model)
     % stress
     model.exact_stressxx = @(x,y) E / (1 - nu*nu) * ( model.exact_strainxx(x,y) + nu * model.exact_strainyy(x,y) );
     model.exact_stressyy = @(x,y) E / (1 - nu*nu) * ( nu * model.exact_strainxx(x,y) + model.exact_strainyy(x,y)  );
-    model.exact_stressxy = @(x,y) E / (2 * (1+nu))* model.exact_strainxy(x,y);
+    model.exact_stressxy = @(x,y) E / (1+nu) * model.exact_strainxy(x,y);
 
     model.exact_stressxx_x = @(x,y) E / (1 - nu*nu) * (model.exact_ux_xx(x,y) + nu * model.exact_uy_yx(x,y) );
     model.exact_stressyy_y = @(x,y) E / (1 - nu*nu) * (nu * model.exact_ux_xy(x,y) + model.exact_uy_yy(x,y));
-    model.exact_stressxy_x = @(x,y) E / (4*(1 + nu)) * (model.exact_uy_xx(x,y) + model.exact_ux_yx(x,y));
-    model.exact_stressxy_y = @(x,y) E / (4*(1 + nu)) * (model.exact_uy_xy(x,y) + model.exact_ux_yy(x,y));
+    model.exact_stressxy_x = @(x,y) E / (2*(1 + nu)) * (model.exact_uy_xx(x,y) + model.exact_ux_yx(x,y));
+    model.exact_stressxy_y = @(x,y) E / (2*(1 + nu)) * (model.exact_uy_xy(x,y) + model.exact_ux_yy(x,y));
 
     % body force
     model.exact_bf_x = @(x,y) -model.exact_stressxx_x(x,y) - model.exact_stressxy_y(x,y);
@@ -95,8 +95,8 @@ function model = manufactured_solution_Q4(model)
         node_x = model.nodes(ii, 1);
         node_y = model.nodes(ii, 2);
 
-        dof_ids1 = model.ID(1, ii);
-        dof_ids2 = model.ID(2, ii);
+        dof_ids1 = ii * model.ndof - 1;
+        dof_ids2 = ii * model.ndof;
         
         dis(dof_ids1) = model.exact_ux(node_x, node_y) * model.fact;
         dis(dof_ids2) = model.exact_uy(node_x, node_y) * model.fact;
