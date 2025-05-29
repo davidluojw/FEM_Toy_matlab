@@ -71,6 +71,14 @@ function model = create_2d_Q4_model(fem_data)
                0.0, 0.0, (1.0-model.nu)/2.0] * model.E /(1.0 - model.nu^2);  % elasticity matrix
 
     model.G = model.E / (2.0 * (1.0 + model.nu));  % shear modulus
+    model.rho = 1.0;   % the density of the material
+    model.dt = 0.1;    % time step 
+    model.final_t = 10;  % final time 
+    model.initial_t = 0;  % initial time
+    model.nts = (model.final_t - model.initial_t)/ model.dt;   % number of time steps
+    model.time_intervals = model.initial_t: model.dt : model.final_t;  % time sub-intervals
+    model.d_ini = zeros(model.neq, 1); % initial condition, displacement
+    model.v_ini = zeros(model.neq, 1); % initial condition，velocity
 
     model.IEN = model.elements_connectivity'; % IEN: mapping element node number to global node number
     model.LM = zeros(model.nen * model.ndof, model.nel); %LM: mapping element dof number to global node number
