@@ -66,11 +66,11 @@ function model = manufactured_solution_elastodynamics_Q4(model)
     model.exact_stressxx_x = @(x,y,t) E / (1 - nu*nu) * (model.exact_ux_xx(x,y,t) + nu * model.exact_uy_yx(x,y,t) );
     model.exact_stressyy_y = @(x,y,t) E / (1 - nu*nu) * (nu * model.exact_ux_xy(x,y,t) + model.exact_uy_yy(x,y,t));
     model.exact_stressxy_x = @(x,y,t) E / (2*(1 + nu)) * (model.exact_uy_xx(x,y,t) + model.exact_ux_yx(x,y,t));
-    model.exact_stressxy_y = @(x,yv) E / (2*(1 + nu)) * (model.exact_uy_xy(x,y,t) + model.exact_ux_yy(x,y,t));
+    model.exact_stressxy_y = @(x,y,t) E / (2*(1 + nu)) * (model.exact_uy_xy(x,y,t) + model.exact_ux_yy(x,y,t));
 
     % body force
-    model.exact_bf_x = @(x,y,t) model.exact_ax(x,y,t) - model.exact_stressxx_x(x,y,t) - model.exact_stressxy_y(x,y,t);
-    model.exact_bf_y = @(x,y,t) model.exact_ay(x,y,t) - model.exact_stressxy_x(x,y,t) - model.exact_stressyy_y(x,y,t);
+    model.exact_bf_x = @(x,y,t) model.rho * model.exact_ax(x,y,t) - model.exact_stressxx_x(x,y,t) - model.exact_stressxy_y(x,y,t);
+    model.exact_bf_y = @(x,y,t) model.rho * model.exact_ay(x,y,t) - model.exact_stressxy_x(x,y,t) - model.exact_stressyy_y(x,y,t);
 
     % traction force
     model.exact_t_x = @(x,y,t) model.exact_stressxy(x,y,t);
@@ -85,37 +85,20 @@ function model = manufactured_solution_elastodynamics_Q4(model)
         for jj = 1:model.ndof 
             dof_ids = model.ndof *(ii - 1) + jj;
             if jj == 1
-                model.d_ini(dof_ids) = model.exact_ux(node_x, node_y, 0);
-                model.v_ini(dof_ids) = model.exact_vx(node_x, node_y, 0);
+                model.d_ini(dof_ids) = model.exact_ux(node_x, node_y, model.initial_t);
+                model.v_ini(dof_ids) = model.exact_vx(node_x, node_y, model.initial_t);
             else
-                model.d_ini(dof_ids) = model.exact_uy(node_x, node_y, 0);
-                model.v_ini(dof_ids) = model.exact_vy(node_x, node_y, 0);
+                model.d_ini(dof_ids) = model.exact_uy(node_x, node_y, model.initial_t);
+                model.v_ini(dof_ids) = model.exact_vy(node_x, node_y, model.initial_t);
             end
         end
     end
-
-
-    % Dirichlet B.C. 
-    % for ii = 1:model.nnp
-    %     node_x = model.nodes(ii, 1);
-    %     node_y = model.nodes(ii, 2);
-    %     for jj = 1:model.ndof 
-    %         dof_ids = model.ndof *(ii - 1) + jj;
-    %         if model.flags(dof_ids) == 2 &&  jj == 1
-    %             model.e_bc(dof_ids) = model.exact_ux(node_x, node_y);
-    %         elseif model.flags(dof_ids) == 2 &&  jj == 2
-    %             model.e_bc(dof_ids) = model.exact_uy(node_x, node_y);
-    %         end
-    %     end
-    % end
-
-    % Neumann B.C
-    % model.nbc_nodes = [21, 22, 23, 24; 22, 23, 24, 25];
-    % model.nbc_nodes = [1, 2, 3, 4; 2, 3, 4, 5];
+    % store the disp
+    model.disp(:, 1) = model.d_ini;
 
 
     % PLOT THE DEFORMED DISPLACEMENT (exact solution)
-    %% Initialize animation
+    % Initialize animation
     figure;
     hold on;
     axis equal;
@@ -125,6 +108,8 @@ function model = manufactured_solution_elastodynamics_Q4(model)
 
     numFrames = model.nts;   % number of frames
     F(numFrames) = struct('cdata', [], 'colormap', []);
+
+    model.exact_disp = zeros(model.neq, model.nts);
 
     %% 主循环
     for tt = 1:numFrames
@@ -139,13 +124,16 @@ function model = manufactured_solution_elastodynamics_Q4(model)
 
             dof_ids1 = ii * model.ndof - 1;
             dof_ids2 = ii * model.ndof;
-            
-            dis(dof_ids1) = model.exact_ux(node_x, node_y, tt*model.dt) * model.fact;  % plot the result at time tt * dt
-            dis(dof_ids2) = model.exact_uy(node_x, node_y, tt*model.dt) * model.fact;
+
+            cur_t = model.time_intervals(tt);
+            dis(dof_ids1) = model.exact_ux(node_x, node_y, cur_t) * model.fact;  % plot the result at time tt * dt
+            dis(dof_ids2) = model.exact_uy(node_x, node_y, cur_t) * model.fact;
         end
         xnew = model.nodes(:,1) + dis(1:2:end);
         ynew = model.nodes(:,2) + dis(2:2:end);
-        
+
+        model.exact_disp(:, tt) = dis;
+
 
         for i = 1:model.nel
             % initial structure (blue line)
@@ -171,13 +159,13 @@ function model = manufactured_solution_elastodynamics_Q4(model)
                 plot(X_def, Y_def, 'k--', 'LineWidth', 2);
             end
         end
-        
+
         % update the graph
         legend([h_initial, h_deformed], 'Location', 'best'); 
         drawnow limitrate;
-        pause(0.1);
+        pause(0.005);
         F(tt) = getframe(gcf);
-        
+
     end
 
     % play animation

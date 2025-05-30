@@ -4,7 +4,7 @@ currentDir = pwd;
 
 addpath(genpath(currentDir));
 
-file_in = fullfile(currentDir, 'input', 'input_2d_Q4_ex4_5.dat'); 
+file_in = fullfile(currentDir, 'input', 'input_2d_Q4_ex4_1.dat'); 
 % file_in = fullfile(currentDir, 'input/genInput', 'plate_mesh_8x8.dat'); 
 
 fem_data = read_fem_Q4_dat(file_in);

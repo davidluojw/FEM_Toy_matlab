@@ -31,6 +31,11 @@ function model = create_2d_Q4_model(fem_data)
     model.d = zeros(model.neq, 1); % the solution dof
     model.r = zeros(model.neq, 1);    % the reaction nodal forces
     model.K = spalloc(model.neq, model.neq, (model.ndof * model.nen + 1)*model.neq);  % the global stiffness matrix
+    model.M = model.K;   % the global mass matrix 
+
+    model.k_ele = zeros(model.nee, model.nee);   % dimension of element stiffness is 8 x 8
+    model.f_ele = zeros(model.nee, 1);           % element force nodes
+    model.m_ele = zeros(model.nee, model.nee);   % element mass matrix 8 x 8
 
 
     model.nd = 0;  % total dofs for essential boundary condition
@@ -71,14 +76,17 @@ function model = create_2d_Q4_model(fem_data)
                0.0, 0.0, (1.0-model.nu)/2.0] * model.E /(1.0 - model.nu^2);  % elasticity matrix
 
     model.G = model.E / (2.0 * (1.0 + model.nu));  % shear modulus
-    model.rho = 1.0;   % the density of the material
-    model.dt = 0.1;    % time step 
-    model.final_t = 10;  % final time 
+
+    % time solution option
+    model.rho = 7850;   % the density of the material
+    model.dt = 0.01;    % time step 
+    model.final_t = 1;  % final time 
     model.initial_t = 0;  % initial time
-    model.nts = (model.final_t - model.initial_t)/ model.dt;   % number of time steps
-    model.time_intervals = model.initial_t: model.dt : model.final_t;  % time sub-intervals
+    model.nts = (model.final_t - model.initial_t)/ model.dt + 1;   % number of time steps
+    model.time_intervals = 0 : model.dt : model.final_t;  % time sub-intervals
     model.d_ini = zeros(model.neq, 1); % initial condition, displacement
     model.v_ini = zeros(model.neq, 1); % initial condition，velocity
+    model.disp = zeros(model.neq, model.nts);  % store all the solutions for all time stepss
 
     model.IEN = model.elements_connectivity'; % IEN: mapping element node number to global node number
     model.LM = zeros(model.nen * model.ndof, model.nel); %LM: mapping element dof number to global node number

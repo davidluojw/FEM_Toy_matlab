@@ -1,7 +1,7 @@
 A Plate with Applied Pressure Loads                  26-FEB-15
 Plane stress
       16        25                     ! No. of Elements, No. of Nodes
-      3.e7       0.3 		       ! Young's Modulus, Poisson's Ratio
+      2.e5       0.3 		       ! Young's Modulus, Poisson's Ratio
 # Nodes:
        1   	  0.e0	  0.e0
        2   	  0.5e0  0.125e0
@@ -67,9 +67,9 @@ Plane stress
        19       2    0.e0	  2    0.e0
        20       1    0.e0	  1    0.e0
        21       1    0.e0	  1    0.e0
-       22       2    0.e0	  2    0.e0
-       23       2    0.e0	  2    0.e0
-       24       2    0.e0	  2    0.e0
+       22       1    0.e0	  1    0.e0
+       23       1    0.e0	  1    0.e0
+       24       1    0.e0	  1    0.e0
        25       1    0.e0	  1    0.e0
 # Traction:
        4      ! the number of edge which is applied traction
