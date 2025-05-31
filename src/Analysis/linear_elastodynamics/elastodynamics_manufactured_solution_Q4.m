@@ -1,4 +1,4 @@
-function model = manufactured_solution_elastodynamics_Q4(model)
+function model = elastodynamics_manufactured_solution_Q4(model)
     E = model.E;
     nu = model.nu;
 
@@ -169,10 +169,11 @@ function model = manufactured_solution_elastodynamics_Q4(model)
     end
 
     % play animation
-    movie(gcf, F, 1, 12); % play once, 15 frames per second
+    movie(gcf, F, 1, 120); % play once, 15 frames per second
 
     % create video writing object
-    v = VideoWriter('deformation.mp4', 'MPEG-4');
+    v = VideoWriter('exact_deformation.mp4', 'MPEG-4');
+    v.FrameRate = 120;
     open(v);
 
     for k = 1:numFrames

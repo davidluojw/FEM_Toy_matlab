@@ -74,7 +74,7 @@ function  model  = elastodynamics_elemQuad4_2d (model, ee, tt)
             model.k_ele = model.k_ele + Bmat' * model.D * Bmat * detJ * weight(ll);
 
             % element nodal forces, body forces
-            cur_t = model.time_intervals(tt); 
+            cur_t = model.time_intervals(tt+1); 
             be = [model.exact_bf_x(x_l, y_l, cur_t); model.exact_bf_y(x_l, y_l, cur_t)];
             model.f_ele = model.f_ele + N' * be * detJ * weight(ll);
 
@@ -118,7 +118,7 @@ function  model  = elastodynamics_elemQuad4_2d (model, ee, tt)
             detJ = det(J);
 
             % element nodal forces, body forces
-            cur_t = model.time_intervals(tt); 
+            cur_t = model.time_intervals(tt+1); 
             be = [model.exact_bf_x(x_l, y_l, cur_t); model.exact_bf_y(x_l, y_l, cur_t)];
             model.f_ele = model.f_ele + N' * be * detJ * weight(ll);
 

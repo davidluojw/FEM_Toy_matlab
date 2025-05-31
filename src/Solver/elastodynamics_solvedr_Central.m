@@ -1,4 +1,4 @@
-function model = elastodynamics_solvedr(model, tt)
+function model = elastodynamics_solvedr_Central(model, tt)
 
     LEFT = spalloc(model.neq, model.neq, (model.ndof * model.nen + 1)*model.neq);
 
@@ -22,24 +22,6 @@ function model = elastodynamics_solvedr(model, tt)
             end
         end
     end
-
-    % The "1" method
-    % for ii = 1:model.neq
-    %     if model.flags(ii) == 2
-    %         K(ii, :) = zeros(1, model.neq);
-    %         K(:, ii) = zeros(model.neq, 1);
-    %         K(ii, ii) = 1.0;
-    %         M(ii, :) = zeros(1, model.neq);
-    %         M(:, ii) = zeros(model.neq, 1);
-    %         M(ii, ii) = 1.0;
-    %         f(ii) = model.e_bc(ii);
-    %     else
-    %         f(ii) = f(ii) - model.K(ii, :) * model.e_bc;
-    %     end
-    % end
-
-    
-
 
     if tt == 2
 
@@ -67,6 +49,7 @@ function model = elastodynamics_solvedr(model, tt)
 
     end
 
+    % The "1" method
     for ii = 1:model.neq
         if model.flags(ii) == 2
             LEFT(ii, :) = zeros(1, model.neq);

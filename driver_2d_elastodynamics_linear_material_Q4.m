@@ -15,7 +15,7 @@ model = setup_ID_LM(model);
 plot_mesh(model);
 
 % Use the manufactured solution
-model = manufactured_solution_elastodynamics_Q4(model);   % Update model.e_bc and model.n_bc
+model = elastodynamics_manufactured_solution_Q4(model);   % Update model.e_bc and model.n_bc
 
 
 
@@ -30,22 +30,21 @@ for tt = 1:model.nts-1
     
     model = elastodynamics_concentrate_traction_Q4(model, tt+1); 
     
-    model = elastodynamics_solvedr(model, tt+1); 
+    model = elastodynamics_solvedr_Central(model, tt+1); 
+    % model = elastodynamics_solvedr_Newmark(model, tt+1); 
+
+    print_displacement(model);
+
+    % plot_displacement_Q4(model);
+    % model = get_qdpt_stress_Q4(model);
+    % model = get_nodal_stress_Q4(model);
+    % cart2polar_stress(model);
+    % plot_stress_Q4(model);
     
 end
 
+play_displacement_Q4(model);
+model = elastodynamics_error_analysis_Q4(model);
 
 
-model = error_analysis_Q4(model);
-    
-print_displacement(model);
-
-plot_displacement_Q4(model);
-
-model = get_qdpt_stress_Q4(model);
-model = get_nodal_stress_Q4(model);
-
-cart2polar_stress(model);
-
-plot_stress_Q4(model);
 

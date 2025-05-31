@@ -32,6 +32,8 @@ function model = create_2d_Q4_model(fem_data)
     model.r = zeros(model.neq, 1);    % the reaction nodal forces
     model.K = spalloc(model.neq, model.neq, (model.ndof * model.nen + 1)*model.neq);  % the global stiffness matrix
     model.M = model.K;   % the global mass matrix 
+    model.d_dot = zeros(model.neq, 1);  % the first time derivative of solution
+    model.d_ddot = zeros(model.neq, 1);  % the second time derivative of solution
 
     model.k_ele = zeros(model.nee, model.nee);   % dimension of element stiffness is 8 x 8
     model.f_ele = zeros(model.nee, 1);           % element force nodes
@@ -87,6 +89,8 @@ function model = create_2d_Q4_model(fem_data)
     model.d_ini = zeros(model.neq, 1); % initial condition, displacement
     model.v_ini = zeros(model.neq, 1); % initial condition，velocity
     model.disp = zeros(model.neq, model.nts);  % store all the solutions for all time stepss
+    model.gamma = 5/6;  % integration parameter for Newmark method
+    model.beta = 4/9;  % integration parameter for Newmark method
 
     model.IEN = model.elements_connectivity'; % IEN: mapping element node number to global node number
     model.LM = zeros(model.nen * model.ndof, model.nel); %LM: mapping element dof number to global node number
