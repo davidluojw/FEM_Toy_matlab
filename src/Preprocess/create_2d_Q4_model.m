@@ -42,10 +42,12 @@ function model = create_2d_Q4_model(fem_data)
 
     model.nd = 0;  % total dofs for essential boundary condition
     model.nbe = fem_data.nbe; % total number of edges for natural boundary condtion
-    model.e_bc = zeros(model.neq, 1);  % the specified displacement for each dof, 
+    model.e_bc = zeros(model.neq, 1);  % the specified displacement for each dof for essential BC
     model.n_bc = fem_data.n_bc;  % first 2 rows: nodes belonging the edge which is applied natural boundary condition
                                  % next 4 rows: the nodal forces (fx1, fy1, fx2, fy2) applied at each dofs for the two nodes
     model.nbc_nodes = model.n_bc(1:2, :); 
+    model.e_bc_dot = zeros(model.neq, 1);  % the specified velocity for each dof for essential BC in elastodynamics
+    model.e_bc_ddot = zeros(model.neq, 1); % the specified acceleration for each dof for essential BC in elastodynamics
     model.P = zeros(model.neq, 1); % the external nodal forces applied to each dof
     model.b = zeros(model.nen * model.ndof, model.nel); % the nodal body forces in each element (bx1, by1, bx2, by2, bx3, by3)
 
@@ -81,7 +83,7 @@ function model = create_2d_Q4_model(fem_data)
 
     % time solution option
     model.rho = 7850;   % the density of the material
-    model.dt = 0.01;    % time step 
+    model.dt = 0.0001;    % time step 
     model.final_t = 1;  % final time 
     model.initial_t = 0;  % initial time
     model.nts = (model.final_t - model.initial_t)/ model.dt + 1;   % number of time steps
@@ -91,6 +93,12 @@ function model = create_2d_Q4_model(fem_data)
     model.disp = zeros(model.neq, model.nts);  % store all the solutions for all time stepss
     model.gamma = 5/6;  % integration parameter for Newmark method
     model.beta = 4/9;  % integration parameter for Newmark method
+    model.rhoinf = 0.5;  % spectral radius
+    model.alphaf = model.rhoinf / (model.rhoinf + 1);  % coefficient for Generalized alpha
+    model.alpham = (2*model.rhoinf - 1)/ (model.rhoinf + 1); % coefficient for Generalized alpha
+    model.beta = (1 - model.alpham + model.alphaf)^2 / 4; 
+    model.gamma = 0.5 - model.alpham + model.alphaf; 
+
 
     model.IEN = model.elements_connectivity'; % IEN: mapping element node number to global node number
     model.LM = zeros(model.nen * model.ndof, model.nel); %LM: mapping element dof number to global node number

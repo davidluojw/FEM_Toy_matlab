@@ -71,10 +71,10 @@ Plane stress
        23       1    0.e0	  1    0.e0
        24       1    0.e0	  1    0.e0
        25       1    0.e0	  1    0.e0
-# Traction:
-       4      ! the number of edge which is applied traction
-       1      21     22     
-       2      22     23     
-       3      23     24     
-       4      24     25    
+// # Traction:
+//        4      ! the number of edge which is applied traction
+//        1      21     22     
+//        2      22     23     
+//        3      23     24     
+//        4      24     25    
 # End of file

@@ -27,29 +27,29 @@ function model = elastodynamics_manufactured_solution_Q4(model)
     % model.exact_uy_yy = @(x,y) -2*x*(2-x)      + 0.1*G_yy(x, y);
 
 
-    model.exact_ux    = @(x,y,t) sin(t)*x*(2-x)*y*(1-y); 
-    model.exact_ux_x  = @(x,y,t) sin(t)*(2-2*x)*y*(1-y); 
-    model.exact_ux_y  = @(x,y,t) sin(t)*x*(2-x)*(1-2*y); 
-    model.exact_ux_xx = @(x,y,t) -sin(t)*2*y*(1-y)     ;  
-    model.exact_ux_xy = @(x,y,t) sin(t)*(2-2*x)*(1-2*y);
-    model.exact_ux_yx = @(x,y,t) sin(t)*(2-2*x)*(1-2*y);
-    model.exact_ux_yy = @(x,y,t) -sin(t)*2*x*(2-x)     ;
+    model.exact_ux    = @(x,y,t) t^2*x*(2-x)*y*(1-y); 
+    model.exact_ux_x  = @(x,y,t) t^2*(2-2*x)*y*(1-y); 
+    model.exact_ux_y  = @(x,y,t) t^2*x*(2-x)*(1-2*y); 
+    model.exact_ux_xx = @(x,y,t) -t^2*2*y*(1-y)     ;  
+    model.exact_ux_xy = @(x,y,t) t^2*(2-2*x)*(1-2*y);
+    model.exact_ux_yx = @(x,y,t) t^2*(2-2*x)*(1-2*y);
+    model.exact_ux_yy = @(x,y,t) -t^2*2*x*(2-x)     ;
 
-    model.exact_uy    = @(x,y,t) cos(t)*x*(2-x)*y*(1-y);
-    model.exact_uy_x  = @(x,y,t) cos(t)*(2-2*x)*y*(1-y);
-    model.exact_uy_y  = @(x,y,t) cos(t)*x*(2-x)*(1-2*y);
-    model.exact_uy_xx = @(x,y,t) -cos(t)*2*y*(1-y)     ;
-    model.exact_uy_xy = @(x,y,t) cos(t)*(2-2*x)*(1-2*y);
-    model.exact_uy_yx = @(x,y,t) cos(t)*(2-2*x)*(1-2*y);
-    model.exact_uy_yy = @(x,y,t) -cos(t)*2*x*(2-x)     ;
+    model.exact_uy    = @(x,y,t) t^2*x*(2-x)*y*(1-y);
+    model.exact_uy_x  = @(x,y,t) t^2*(2-2*x)*y*(1-y);
+    model.exact_uy_y  = @(x,y,t) t^2*x*(2-x)*(1-2*y);
+    model.exact_uy_xx = @(x,y,t) -t^2*2*y*(1-y)     ;
+    model.exact_uy_xy = @(x,y,t) t^2*(2-2*x)*(1-2*y);
+    model.exact_uy_yx = @(x,y,t) t^2*(2-2*x)*(1-2*y);
+    model.exact_uy_yy = @(x,y,t) -t^2*2*x*(2-x)     ;
 
     % velocity
-    model.exact_vx = @(x,y,t) cos(t)*x*(2-x)*y*(1-y); 
-    model.exact_vy = @(x,y,t) -sin(t)*x*(2-x)*y*(1-y);
+    model.exact_vx = @(x,y,t) 2*t*x*(2-x)*y*(1-y); 
+    model.exact_vy = @(x,y,t) 2*t*x*(2-x)*y*(1-y);
 
     % acceleration
-    model.exact_ax = @(x,y,t) -sin(t)*x*(2-x)*y*(1-y); 
-    model.exact_ay = @(x,y,t) -cos(t)*x*(2-x)*y*(1-y);
+    model.exact_ax = @(x,y,t) 2*x*(2-x)*y*(1-y); 
+    model.exact_ay = @(x,y,t) 2*x*(2-x)*y*(1-y);
 
 
 
@@ -135,52 +135,54 @@ function model = elastodynamics_manufactured_solution_Q4(model)
         model.exact_disp(:, tt) = dis;
 
 
-        for i = 1:model.nel
-            % initial structure (blue line)
-            node_ids = model.IEN(:,i);
-            X_orig = model.nodes(node_ids([1:end,1]), 1);  
-            Y_orig = model.nodes(node_ids([1:end,1]), 2);
+        % for i = 1:model.nel
+        %     % initial structure (blue line)
+        %     node_ids = model.IEN(:,i);
+        %     X_orig = model.nodes(node_ids([1:end,1]), 1);  
+        %     Y_orig = model.nodes(node_ids([1:end,1]), 2);
 
-            if i == 1
-                h_initial = plot(X_orig, Y_orig, 'b-', 'LineWidth', 1.5, 'DisplayName', 'Initial');
-            else
-                plot(X_orig, Y_orig, 'b-', 'LineWidth', 1.5);
-            end
-        end
+        %     if i == 1
+        %         h_initial = plot(X_orig, Y_orig, 'b-', 'LineWidth', 1.5, 'DisplayName', 'Initial');
+        %     else
+        %         plot(X_orig, Y_orig, 'b-', 'LineWidth', 1.5);
+        %     end
+        % end
 
-        %  the deformed structure (black line)
-        for i = 1:model.nel
-            node_ids = model.IEN(:,i);
-            X_def = xnew(node_ids([1:end,1]));
-            Y_def = ynew(node_ids([1:end,1]));
-            if i == 1
-                h_deformed = plot(X_def, Y_def, 'k--', 'LineWidth', 2, 'DisplayName', 'Deformed');
-            else
-                plot(X_def, Y_def, 'k--', 'LineWidth', 2);
-            end
-        end
+        % %  the deformed structure (black line)
+        % for i = 1:model.nel
+        %     node_ids = model.IEN(:,i);
+        %     X_def = xnew(node_ids([1:end,1]));
+        %     Y_def = ynew(node_ids([1:end,1]));
+        %     if i == 1
+        %         h_deformed = plot(X_def, Y_def, 'k--', 'LineWidth', 2, 'DisplayName', 'Deformed');
+        %     else
+        %         plot(X_def, Y_def, 'k--', 'LineWidth', 2);
+        %     end
+        % end
 
-        % update the graph
-        legend([h_initial, h_deformed], 'Location', 'best'); 
-        drawnow limitrate;
-        pause(0.005);
-        F(tt) = getframe(gcf);
+        % % update the graph
+        % legend([h_initial, h_deformed], 'Location', 'best'); 
+        % drawnow limitrate;
+        % pause(0.005);
+        % F(tt) = getframe(gcf);
 
     end
 
     % play animation
-    movie(gcf, F, 1, 120); % play once, 15 frames per second
+    % movie(gcf, F, 1, 120); % play once, 15 frames per second
 
-    % create video writing object
-    v = VideoWriter('exact_deformation.mp4', 'MPEG-4');
-    v.FrameRate = 120;
-    open(v);
+    % % create video writing object
+    % v = VideoWriter('exact_deformation.mp4', 'MPEG-4');
+    % v.FrameRate = 120;
+    % open(v);
 
-    for k = 1:numFrames
-        writeVideo(v, F(k));
-    end
+    % for i = 1:5
+    %     for k = 1:numFrames
+    %         writeVideo(v, F(k));
+    %     end
+    % end
 
-    % close video file
-    close(v);
+    % % close video file
+    % close(v);
 
 end

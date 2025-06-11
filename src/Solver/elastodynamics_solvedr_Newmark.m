@@ -17,11 +17,18 @@ function model = elastodynamics_solvedr_Newmark(model, tt)
             dof_ids = model.ndof *(ii - 1) + jj;
             if model.flags(dof_ids) == 2 &&  jj == 1
                 model.e_bc(dof_ids) = model.exact_ux(node_x, node_y, cur_t);
+                model.e_bc_dot(dof_ids) = model.exact_vx(node_x, node_y, cur_t);
+                mdoel.e_bc_ddot(dof_ids) = model.exact_ax(node_x, node_y, cur_t);
             elseif model.flags(dof_ids) == 2 &&  jj == 2
                 model.e_bc(dof_ids) = model.exact_uy(node_x, node_y, cur_t);
+                model.e_bc_dot(dof_ids) = model.exact_vy(node_x, node_y, cur_t);
+                mdoel.e_bc_ddot(dof_ids) = model.exact_ay(node_x, node_y, cur_t);
             end
         end
     end
+
+    model.d_dot( model.flags == 2) = model.e_bc_dot( model.flags == 2);
+    model.d_ddot( model.flags == 2) = model.e_bc_ddot( model.flags == 2);
 
     if tt <= 2
 
@@ -71,6 +78,8 @@ function model = elastodynamics_solvedr_Newmark(model, tt)
     % update the acceleration and velocity
     model.d_dot = model.gamma/(model.beta * model.dt) * (model.disp(:, tt) - model.disp(:, tt-1))  + (1 - model.gamma/model.beta) * model.d_dot + (1 - model.gamma / (2*model.beta)) * model.dt * model.d_ddot;
     model.d_ddot = 1/(model.beta * model.dt^2) * (model.disp(:, tt) - model.disp(:, tt-1)) - 1/(model.beta * model.dt) * model.d_dot - (1/(2*model.beta) - 1) * model.d_ddot;
+
+    
 
 
 

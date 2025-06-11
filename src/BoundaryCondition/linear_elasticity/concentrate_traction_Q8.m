@@ -9,6 +9,10 @@ function model = concentrate_traction_Q8(model)
     for ii = 1:size(model.nbc_nodes,2)
         BCedge = model.nbc_nodes(:, ii);
 
+        if BCedge(1) == 0
+            break;
+        end
+
         node1 = BCedge(1);
         node2 = BCedge(2);
         node3 = BCedge(3);

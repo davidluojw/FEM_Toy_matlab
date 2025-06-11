@@ -1,4 +1,4 @@
-function model = manufactured_solution_Q4(model)
+function model = manufactured_solution_Q8(model)
     E = model.E;
     nu = model.nu;
 

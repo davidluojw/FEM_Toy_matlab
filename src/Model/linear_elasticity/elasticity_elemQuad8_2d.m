@@ -1,4 +1,4 @@
-function [k_ele, f_ele] = elasticity_elemQuad4_2d(model, ee)
+function [k_ele, f_ele] = elasticity_elemQuad8_2d(model, ee)
 
     % =========================================================================
     % generate the quadrature rule

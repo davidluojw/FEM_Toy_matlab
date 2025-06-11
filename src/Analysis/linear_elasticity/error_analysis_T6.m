@@ -1,4 +1,4 @@
-function  model =  error_analysis(model)
+function  model =  error_analysis_T6(model)
 
     % postprocess the solution by calculating the error measured in L2 norm
     nqp = 10; % we need more points 

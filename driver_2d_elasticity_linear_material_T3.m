@@ -1,10 +1,10 @@
-clear; clc
+clear all; clc; close all
 
 currentDir = pwd;
 
 addpath(genpath(currentDir));
 
-file_in = fullfile(currentDir, 'input', 'input_2d_T3_ex4_1.dat'); 
+file_in = fullfile(currentDir, 'input', 'input_2d_T3_ex4_2.dat'); 
 
 fem_data = read_fem_T3_dat(file_in);
 

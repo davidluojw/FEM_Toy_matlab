@@ -79,7 +79,7 @@ function  model  = elastodynamics_elemQuad4_2d (model, ee, tt)
             model.f_ele = model.f_ele + N' * be * detJ * weight(ll);
 
             % element mass matrix
-            model.m_ele = model.m_ele + model.rho * weight(ll) * detJ * N' * N; 
+            model.m_ele = model.m_ele + model.rho * (N' * N) * detJ * weight(ll) ; 
 
         end % end of quadrature loop
     else 

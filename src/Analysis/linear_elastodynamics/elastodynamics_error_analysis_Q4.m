@@ -15,7 +15,7 @@ function  model =  elastodynamics_error_analysis_Q4(model)
         model.uy_h = zeros(model.neq / 2, 1);
         for ii = 1 : model.neq
             if mod(ii, 2) == 1
-                model.ux_h(floor(ii / 2) + 1) = model.d(ii);
+                model.ux_h(floor(ii / 2) + 1) = model.disp(ii, tt);
             else
                 model.uy_h(floor(ii / 2)) = model.disp(ii, tt);
             end
